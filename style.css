@@ -1,3 +1,25 @@
+:root {
+  --background-color: #FFF;
+  --text-color: #222;
+  --secondary-text-color: #999;
+  --button-background: #08A;
+  --button-text-color: #FFF;
+  --input-background: #EEE;
+  --input-text-color: #333;
+  --border-color: #CCC;
+}
+
+.dark-theme {
+  --background-color: #222;
+  --text-color: #DDD;
+  --secondary-text-color: #999;
+  --button-background: #08A;
+  --button-text-color: #FFF;
+  --input-background: #444;
+  --input-text-color: #DDD;
+  --border-color: #555;
+}
+
 *,
 *:before,
 *:after {
@@ -21,6 +43,8 @@ body {
   -webkit-flex-direction: column;
   -webkit-font-smoothing: antialiased;
   -webkit-justify-content: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 body, input {
@@ -28,38 +52,35 @@ body, input {
   font-family: 'Avenir', 'helvetica neue', helvetica, arial, sans-serif;
 }
 
-.age-label {
-  color: #B0B5B9;
+.age-label,
+#cite {
+  color: var(--secondary-text-color);
   font-size: 1.2rem;
   line-height: 1;
   margin: 0 0 0 2px;
 }
 
 #cite {
-  color: #B0B5B9;
-  font-size: 1.2rem;
-  line-height: 1;
-  margin: 0 0 0 2px;
   position: fixed;
   bottom: 0;
 }
 
 #cite a {
-  color: rgb(154, 157, 160);
+  color: #9A9DA0;
   text-decoration: none;
 }
 #cite a:visited {
-  color: rgb(125, 128, 131);
+  color: #7D8083;
 }
 #cite a:hover {
-  color: rgb(202, 207, 209);
+  color: #CACFD1;
 }
 #cite a:active {
-  color: rgb(125, 128, 131);
-} 
+  color: #7D8083;
+}
 
 .count {
-  color: #494949;
+  color: var(--text-color);
   margin: 0;
   font-size: 6rem;
   line-height: 1;
@@ -75,7 +96,8 @@ label {
   display: block;
 }
 
-input, button {
+input,
+button {
   padding: 0.375rem 0.75rem;
   font-size: 1.5rem;
   appearance: none;
@@ -88,18 +110,19 @@ input {
   border-width: 1px;
   border-style: solid;
   border-radius: 0.25rem;
-  border-color: #CCC;
-  background-color: #FFF;
+  border-color: var(--border-color);
+  background-color: var(--input-background);
+  color: var(--input-text-color);
 }
 
 button {
   outline: none;
   display: block;
   cursor: pointer;
-  color: #FFF;
+  color: var(--button-text-color);
   border: none;
   border-radius: 0.25rem;
-  background-color: #0BE;
+  background-color: var(--button-background);
 }
 
 footer {
