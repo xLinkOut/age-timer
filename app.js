@@ -62,4 +62,18 @@ $(document).ready(function(){
         }
     };
     main();
+
+    // Check if prefers-color-scheme is supported
+    if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
+        // Listen for changes in the prefers-color-scheme media query
+        window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+            const newTheme = e.matches ? 'dark' : 'light';
+            document.getElementsByTagName("body")[0].classList.toggle('dark-theme', newTheme === 'dark');
+        });
+    }
+
+    // Set the initial theme based on prefers-color-scheme
+    const initialTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.getElementsByTagName("body")[0].classList.toggle('dark-theme', initialTheme === 'dark');
+
 });
