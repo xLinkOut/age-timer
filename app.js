@@ -1,79 +1,62 @@
-$(document).ready(function(){
-    $("#submit").click(function(e){
-        e.preventDefault();
-    
-        var input = $("#dob-input").val();
-        var dob = new Date(input);
-        save(dob);
-        renderAgeLoop();
+document.addEventListener("DOMContentLoaded", function () {
+  const chooseForm = document.getElementById("choose");
+  const dobInput = document.getElementById("dob-input");
+  const submitBtn = document.getElementById("submit");
+
+  const timerDiv = document.getElementById("timer");
+  const ageCount = document.getElementById("age");
+
+  submitBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    const dopTimestamp = new Date(dobInput.value).getTime();
+    localStorage.setItem("dob", dopTimestamp);
+    renderAgeLoop();
+  });
+
+  function renderAgeLoop() {
+    const localDob = localStorage.getItem("dob");
+    const dob = localDob ? new Date(parseInt(localDob)) : -1;
+
+    chooseForm.style.display = "none";
+    timerDiv.style.display = "block";
+
+    setInterval(function () {
+      const age = getAge(dob);
+      ageCount.innerHTML = age.year + "<sup>." + age.ms + "</sup>";
+    }, 100);
+  }
+
+  function renderChoose() {
+    timerDiv.style.display = "none";
+    chooseForm.style.display = "block";
+  }
+
+  function getAge(dob) {
+    const now = new Date();
+    const duration = now - dob;
+    const years = duration / 31556900000;
+
+    const majorMinor = years.toFixed(9).toString().split(".");
+
+    return {
+      year: majorMinor[0],
+      ms: majorMinor[1],
+    };
+  }
+
+  // Check if prefers-color-scheme is supported
+  if (window.matchMedia("(prefers-color-scheme)").media !== "not all") {
+    // Listen for changes in the prefers-color-scheme media query
+    window.matchMedia("(prefers-color-scheme: dark)").addListener((e) => {
+      const newTheme = e.matches ? "dark" : "light";
+      document.getElementsByTagName("body")[0].classList.toggle("dark-theme", newTheme === "dark");
     });
+  }
 
-    function save(dob)
-    {
-        localStorage.dob = dob.getTime();
-    };
+  // Set the initial theme based on prefers-color-scheme
+  const initialTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.getElementsByTagName("body")[0].classList.toggle("dark-theme", initialTheme === "dark");
 
-    function load()
-    {
-        var dob;
-        if (dob = localStorage.getItem("dob"))
-        {
-            return new Date(parseInt(dob));
-        }
-        return -1;
-    };
-
-    function renderAgeLoop()
-    {
-        var dob = load();
-        $("#choose").css("display", "none");
-        $("#timer").css("display", "block");
-
-        setInterval(function(){
-            var age = getAge(dob);
-            $("#age").html(age.year + "<sup>." + age.ms + "</sup>");
-        }, 100);
-    };
-
-    function renderChoose()
-    {
-        $("#choose").css("display", "block");
-    };
-
-    function getAge(dob){
-        var now       = new Date;
-        var duration  = now - dob;
-        var years     = duration / 31556900000;
-        
-        var majorMinor = years.toFixed(9).toString().split('.');
-        
-        return {
-            "year": majorMinor[0],
-            "ms": majorMinor[1]
-        };
-    };
-
-    function main() {
-        if (load() != -1)
-        {
-            renderAgeLoop();
-        } else {
-            renderChoose();
-        }
-    };
-    main();
-
-    // Check if prefers-color-scheme is supported
-    if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
-        // Listen for changes in the prefers-color-scheme media query
-        window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
-            const newTheme = e.matches ? 'dark' : 'light';
-            document.getElementsByTagName("body")[0].classList.toggle('dark-theme', newTheme === 'dark');
-        });
-    }
-
-    // Set the initial theme based on prefers-color-scheme
-    const initialTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.getElementsByTagName("body")[0].classList.toggle('dark-theme', initialTheme === 'dark');
+  localStorage.getItem("dob") == null ? renderChoose() : renderAgeLoop();
 
 });
