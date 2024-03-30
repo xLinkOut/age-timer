@@ -5,12 +5,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const timerDiv = document.getElementById("timer");
   const ageCount = document.getElementById("age");
+  var timerIntervalId = null;
+
+  const backBtn = document.getElementById("backBtn");
 
   submitBtn.addEventListener("click", function (e) {
     e.preventDefault();
     const dopTimestamp = new Date(dobInput.value).getTime();
     localStorage.setItem("dob", dopTimestamp);
     renderAgeLoop();
+  });
+
+  backBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    clearInterval(timerIntervalId);
+    renderChoose();
+    localStorage.removeItem("dob");
+    ageCount.innerHTML = "";
   });
 
   function renderAgeLoop() {
@@ -20,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     chooseForm.style.display = "none";
     timerDiv.style.display = "block";
 
-    setInterval(function () {
+    timerIntervalId = setInterval(function () {
       const age = getAge(dob);
       ageCount.innerHTML = age.year + "<sup>." + age.ms + "</sup>";
     }, 100);
