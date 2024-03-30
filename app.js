@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    var timerInterval;
+
     $("#submit").click(function(e){
         e.preventDefault();
     
@@ -7,6 +9,14 @@ $(document).ready(function(){
         save(dob);
         renderAgeLoop();
     });
+
+    $("#backBtn").click(function(){
+        clearInterval(timerInterval);
+        localStorage.removeItem("dob");
+        $("#timer").css("display", "none");
+        $("#choose").css("display", "block");
+        $("#age").html("");
+    })
 
     function save(dob)
     {
@@ -29,7 +39,7 @@ $(document).ready(function(){
         $("#choose").css("display", "none");
         $("#timer").css("display", "block");
 
-        setInterval(function(){
+        timerInterval = setInterval(function(){
             var age = getAge(dob);
             $("#age").html(age.year + "<sup>." + age.ms + "</sup>");
         }, 100);
